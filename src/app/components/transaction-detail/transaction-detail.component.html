@@ -1,0 +1,28 @@
+<h1>@if (isEditing()) { Transaktion bearbeiten } @else { Neue Transaktion }</h1>
+
+<label> Name: <input [(ngModel)]="name" /> </label>
+
+<label>
+  <input type="checkbox" [checked]="isRestock()" (change)="toggleRestock()" />
+  Einkauf statt Verbrauch
+</label>
+
+<div>
+  <input #drinkName placeholder="Getränkename" />
+  <input #drinkQuantity type="number" placeholder="Menge" />
+  <button (click)="addDrink(drinkName.value, drinkQuantity.value)">
+    Getränk hinzufügen
+  </button>
+</div>
+
+<ul>
+  @for (drink of drinks(); track drink.name) {
+  <li>
+    {{ drink.name }}: {{ drink.quantity }}x
+    <button (click)="removeDrink(drink.name)">Löschen</button>
+  </li>
+  }
+</ul>
+
+<button (click)="saveTransaction()">Speichern</button>
+<button (click)="cancel()">Abbrechen</button>

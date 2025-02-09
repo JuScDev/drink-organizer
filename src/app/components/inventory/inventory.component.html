@@ -1,0 +1,29 @@
+<h1>Getränkebestand</h1>
+<button [routerLink]="['/transaction/new']">Neue Transaktion</button>
+
+<h2>Aktueller Getränkebestand</h2>
+@if (inventory().length > 0) {
+<ul>
+  @for (drink of inventory(); track drink.name) {
+  <li>
+    <strong>{{ drink.name }}</strong
+    >: {{ drink.quantity }}x
+  </li>
+  }
+</ul>
+} @if (inventory().length === 0) {
+<p>Keine Getränke vorhanden.</p>
+}
+
+<h2>Transaktionen</h2>
+<ul>
+  @for (transaction of transactions(); track transaction.id) {
+  <li>
+    {{ transaction.name }} ({{
+      transaction.isRestock ? "Einkauf" : "Verbrauch"
+    }})
+    <button [routerLink]="['/transaction', transaction.id]">✏️</button>
+    <button (click)="deleteTransaction(transaction.id ?? '')">🗑️</button>
+  </li>
+  }
+</ul>
