@@ -11,8 +11,8 @@ import {
   query,
   orderBy,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { StockTransaction, StockTransactionDto } from './models';
+import { Observable, firstValueFrom } from 'rxjs';
+import { StockTransaction, StockTransactionDto, DrinkEntry } from './models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +21,15 @@ export class TransactionService {
   private firestore = inject(Firestore);
   private transactionsCollection = collection(this.firestore, 'transactions');
 
-  public addTransaction(transaction: StockTransaction): Promise<void> {
-    console.log(transaction);
+  public async addTransaction(transaction: StockTransaction): Promise<void> {
+    const allDrinks = await this.getAllDrinksFromPreviousTransactions();
+    transaction.drinks = allDrinks
+      .map((drink) => ({
+        name: drink.name,
+        quantity:
+          transaction.drinks.find((d) => d.name === drink.name)?.quantity || 0,
+      }))
+      .filter((drink) => drink.quantity > 0);
 
     return addDoc(this.transactionsCollection, transaction)
       .then(() => console.log('Stock Transaction saved!'))
@@ -57,12 +64,50 @@ export class TransactionService {
     await updateDoc(docRef, {
       name: transaction.name,
       isRestock: transaction.isRestock,
-      drinks: transaction.drinks,
+      drinks: transaction.drinks.filter((drink) => drink.quantity > 0),
     });
   }
 
   public async deleteTransaction(id: string): Promise<void> {
     const docRef = doc(this.firestore, `transactions/${id}`);
     await deleteDoc(docRef);
+  }
+
+  public async getAllDrinksFromPreviousTransactions(): Promise<
+    Array<DrinkEntry>
+  > {
+    try {
+      if (!this.firestore || !this.transactionsCollection) {
+        console.error('Firestore or transactions collection not initialized');
+        return [];
+      }
+
+      const transactions = await firstValueFrom(
+        collectionData(this.transactionsCollection, {
+          idField: 'id',
+        })
+      );
+      const allDrinksMap = new Map<string, DrinkEntry>();
+
+      if (!transactions || transactions.length === 0) {
+        return [];
+      }
+
+      (transactions as StockTransactionDto[]).forEach(
+        (transaction: StockTransactionDto) => {
+          transaction.drinks.forEach((drink) => {
+            if (!allDrinksMap.has(drink.name)) {
+              allDrinksMap.set(drink.name, { name: drink.name, quantity: 0 });
+            }
+          });
+        }
+      );
+
+      const allDrinks = Array.from(allDrinksMap.values());
+      return allDrinks;
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+      return [];
+    }
   }
 }

@@ -38,6 +38,10 @@ export class TransactionDetailComponent {
           this.isRestock.set(transaction.isRestock);
           this.drinks.set(transaction.drinks);
         }
+      } else {
+        const allDrinks =
+          await this._transactionService.getAllDrinksFromPreviousTransactions();
+        this.drinks.set(allDrinks);
       }
     });
   }
