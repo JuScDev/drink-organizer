@@ -8,6 +8,8 @@ import {
   getDoc,
   deleteDoc,
   updateDoc,
+  query,
+  orderBy,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { StockTransaction, StockTransactionDto } from './models';
@@ -28,7 +30,11 @@ export class TransactionService {
   }
 
   public getTransactions(): Observable<Array<StockTransactionDto>> {
-    return collectionData(this.transactionsCollection, {
+    const transactionsQuery = query(
+      this.transactionsCollection,
+      orderBy('date', 'desc')
+    );
+    return collectionData(transactionsQuery, {
       idField: 'id',
     }) as Observable<Array<StockTransactionDto>>;
   }

@@ -1,0 +1,72 @@
+:host {
+  display: block;
+
+  h1 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .checkbox {
+    width: 15px;
+  }
+
+  input {
+    box-sizing: border-box;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 40px;
+    width: 150px; /* Ensure both inputs have the same width */
+  }
+
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  li button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .add {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 20px;
+  }
+}

@@ -1,0 +1,57 @@
+:host {
+  display: block;
+
+  .transactions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 30px;
+  }
+
+  h2 {
+    margin-top: 50px;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    > li {
+      margin-bottom: 10px;
+    }
+  }
+
+  .transaction-card {
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+    position: relative;
+
+    .transaction-name {
+      margin-top: 0;
+    }
+
+    &.restock {
+      background-color: #d4edda;
+    }
+
+    &.consumption {
+      background-color: #f8d7da;
+    }
+
+    button {
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .icon-button {
+      outline: none;
+      border: none;
+      background: none;
+      float: right;
+    }
+  }
+}

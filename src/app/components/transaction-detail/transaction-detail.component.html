@@ -3,11 +3,16 @@
 <label> Name: <input [(ngModel)]="name" /> </label>
 
 <label>
-  <input type="checkbox" [checked]="isRestock()" (change)="toggleRestock()" />
-  Einkauf statt Verbrauch
+  <input
+    class="checkbox"
+    type="checkbox"
+    [checked]="isRestock()"
+    (change)="toggleRestock()"
+  />
+  Einkauf
 </label>
 
-<div>
+<div class="add">
   <input #drinkName placeholder="Getränkename" />
   <input #drinkQuantity type="number" placeholder="Menge" />
   <button (click)="addDrink(drinkName.value, drinkQuantity.value)">
@@ -18,11 +23,14 @@
 <ul>
   @for (drink of drinks(); track drink.name) {
   <li>
-    {{ drink.name }}: {{ drink.quantity }}x
-    <button (click)="removeDrink(drink.name)">Löschen</button>
+    <input [(ngModel)]="drink.name" placeholder="Getränkename" />
+    <input [(ngModel)]="drink.quantity" type="number" placeholder="Menge" />
+    <button (click)="removeDrink(drink.name)">❌</button>
   </li>
   }
 </ul>
 
-<button (click)="saveTransaction()">Speichern</button>
-<button (click)="cancel()">Abbrechen</button>
+<div class="button-group">
+  <button (click)="saveTransaction()">Speichern</button>
+  <button (click)="cancel()">Abbrechen</button>
+</div>

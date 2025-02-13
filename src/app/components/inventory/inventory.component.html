@@ -1,7 +1,4 @@
-<h1>Getränkebestand</h1>
-<button [routerLink]="['/transaction/new']">Neue Transaktion</button>
-
-<h2>Aktueller Getränkebestand</h2>
+<h1>Aktueller Getränkebestand</h1>
 @if (inventory().length > 0) {
 <ul>
   @for (drink of inventory(); track drink.name) {
@@ -16,14 +13,38 @@
 }
 
 <h2>Transaktionen</h2>
-<ul>
+<button [routerLink]="['/transaction/new']">Neue Transaktion</button>
+<div class="transactions-grid">
   @for (transaction of transactions(); track transaction.id) {
-  <li>
-    {{ transaction.name }} ({{
-      transaction.isRestock ? "Einkauf" : "Verbrauch"
-    }})
-    <button [routerLink]="['/transaction', transaction.id]">✏️</button>
-    <button (click)="deleteTransaction(transaction.id ?? '')">🗑️</button>
-  </li>
+  <div
+    class="transaction-card"
+    [ngClass]="{
+      restock: transaction.isRestock,
+      consumption: !transaction.isRestock
+    }"
+  >
+    <p class="transaction-name">{{ transaction.name }}</p>
+    <p class="transaction-date">{{ transaction.date | date : "dd.MM.yyyy" }}</p>
+    <ul>
+      @for (drink of transaction.drinks; track drink.name; let index = $index) {
+      @if (index < 3) {
+      <li>
+        <strong>{{ drink.name }}:</strong> {{ drink.quantity }}x
+      </li>
+      } }
+    </ul>
+    @if (transaction.drinks.length > 3) {
+    <span>...</span>
+    }
+    <button
+      class="icon-button"
+      (click)="deleteTransaction(transaction.id ?? '')"
+    >
+      🗑️
+    </button>
+    <button class="icon-button" [routerLink]="['/transaction', transaction.id]">
+      ✏️
+    </button>
+  </div>
   }
-</ul>
+</div>
