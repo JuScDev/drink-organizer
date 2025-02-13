@@ -52,6 +52,10 @@ export class TransactionDetailComponent {
 
   public addDrink(name: string, quantity: string) {
     if (!name || !quantity || +quantity <= 0) return;
+    if (this.drinks().some((drink) => drink.name === name)) {
+      alert('Dieses Getränk ist bereits in der Liste.');
+      return;
+    }
     this.drinks.update((drinks) => [...drinks, { name, quantity: +quantity }]);
   }
 

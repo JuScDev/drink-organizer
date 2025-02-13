@@ -23,6 +23,13 @@ export const routes: Routes = [
       ).then((m) => m.TransactionDetailComponent),
   },
   {
+    path: 'usage-overview',
+    loadComponent: () =>
+      import('./components/usage-overview/usage-overview.component').then(
+        (m) => m.UsageOverviewComponent
+      ),
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('./components/inventory/inventory.component').then(

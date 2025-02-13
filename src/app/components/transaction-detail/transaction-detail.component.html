@@ -13,9 +13,35 @@
 </label>
 
 <div class="add">
-  <input #drinkName placeholder="Getränkename" />
-  <input #drinkQuantity type="number" placeholder="Menge" />
-  <button (click)="addDrink(drinkName.value, drinkQuantity.value)">
+  <input
+    #drinkName
+    placeholder="Getränkename"
+    (keyup.enter)="
+      addDrink(drinkName.value.trim(), drinkQuantity.value);
+      drinkName.value = '';
+      drinkQuantity.value = '';
+      drinkName.focus()
+    "
+  />
+  <input
+    #drinkQuantity
+    type="number"
+    placeholder="Menge"
+    (keyup.enter)="
+      addDrink(drinkName.value.trim(), drinkQuantity.value);
+      drinkName.value = '';
+      drinkQuantity.value = '';
+      drinkName.focus()
+    "
+  />
+  <button
+    (click)="
+      addDrink(drinkName.value.trim(), drinkQuantity.value);
+      drinkName.value = '';
+      drinkQuantity.value = '';
+      drinkName.focus()
+    "
+  >
     Getränk hinzufügen
   </button>
 </div>
@@ -23,7 +49,11 @@
 <ul>
   @for (drink of drinks(); track drink.name) {
   <li>
-    <input [(ngModel)]="drink.name" placeholder="Getränkename" />
+    <input
+      [(ngModel)]="drink.name"
+      placeholder="Getränkename"
+      (blur)="drink.name = drink.name.trim()"
+    />
     <input [(ngModel)]="drink.quantity" type="number" placeholder="Menge" />
     <button (click)="removeDrink(drink.name)">❌</button>
   </li>

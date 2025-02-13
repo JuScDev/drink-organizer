@@ -13,7 +13,10 @@
 }
 
 <h2>Transaktionen</h2>
-<button [routerLink]="['/transaction/new']">Neue Transaktion</button>
+<div class="button-group">
+  <button [routerLink]="['/transaction/new']">Neue Transaktion</button>
+  <button [routerLink]="['/usage-overview']">Verbrauchsübersicht</button>
+</div>
 <div class="transactions-grid">
   @for (transaction of transactions(); track transaction.id) {
   <div
