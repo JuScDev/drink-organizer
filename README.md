@@ -1,6 +1,6 @@
 # DrinkOrganizer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.5.
+This project is an Angular application for organizing drink inventories and transactions.
 
 ## Development server
 
@@ -53,6 +53,18 @@ ng e2e
 ```
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Project Structure
+
+- `src/app/components`: Contains all the Angular components used in the application.
+- `src/app/models`: Contains the data models used in the application.
+- `src/app/services`: Contains the services used for data fetching and business logic.
+
+## Features
+
+- **Inventory Management**: View and manage the current inventory of drinks.
+- **Transaction Management**: Add, edit, and delete transactions.
+- **Usage Overview**: Calculate and download the usage of drinks between two transactions as an Excel file.
 
 ## Additional Resources
 
